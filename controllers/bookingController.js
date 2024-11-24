@@ -2,21 +2,15 @@ const { BookingModel } = require("../models/bookingModel");
 
 const BookingController = {
   addBooking: async (req, res) => {
-    const {
-      name,
-      email,
-      phone,
-      date,
-      time,
-    } = req.body;
-    console.log("req.body", req.body)
+    const { name, email, phone, date, time } = req.body;
+    console.log("req.body", req.body);
     try {
       const newBooking = await BookingModel.create(
         name,
-      email,
-      phone,
-      date,
-      time,
+        email,
+        phone,
+        date,
+        time,
       );
 
       res.statusCode = 201;

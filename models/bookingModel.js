@@ -1,4 +1,4 @@
-const  { getClient } = require("../utils/db");
+const { getClient } = require("../utils/db");
 
 const BookingModel = {
   // Expected table schema
@@ -76,7 +76,7 @@ const BookingModel = {
     customerEmail,
     customerPhone,
     bookingDate,
-    bookingTime
+    bookingTime,
   ) {
     const client = getClient(); // Create a new client instance
     try {
@@ -92,7 +92,7 @@ const BookingModel = {
         customerEmail,
         customerPhone,
         bookingDate,
-        bookingTime
+        bookingTime,
       ];
       const res = await client.query(query, values);
       return res.rows[0];
