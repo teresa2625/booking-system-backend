@@ -2,16 +2,16 @@ provider "aws" {
   region = "ap-southeast-2" # Adjust to your region
 }
 
-resource "aws_key_pair" "BS_backend_key" {
-  key_name   = "BS-backend-key"  # Replace with the desired name for the key pair
-  public_key = file("~/.ssh/id_rsa.pub")  # Path to your local public key
-}
+# resource "aws_key_pair" "BS_backend_key" {
+#   key_name   = "BS-backend-key"  # Replace with the desired name for the key pair
+#   public_key = file("C:/Users/teres/.ssh/id_rsa.pub")  # Path to your local public key
+# }
 
 # Backend EC2 Instance
 resource "aws_instance" "backend" {
   ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI ID (Replace as needed)
   instance_type = "t2.micro"
-  key_name      = aws_key_pair.BS_backend_key.key_name
+  # key_name      = aws_key_pair.BS_backend_key.key_name
 
   tags = {
     Name = "BS-backend-instance"
