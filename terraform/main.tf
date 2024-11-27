@@ -84,7 +84,7 @@ resource "aws_instance" "backend" {
 #       },
 #       {
 #         "Effect" : "Allow",
-#         "Action" : "logs:*",
+#         "Action" : ["logs:*", "cloudwatch:*"],
 #         "Resource" : "*"
 #       }
 #     ]
