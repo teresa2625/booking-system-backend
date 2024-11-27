@@ -88,7 +88,8 @@ resource "aws_iam_policy" "backend_role_policy" {
           "ec2:DescribeInstances",
           "ec2:TerminateInstances",
           "ec2:CreateTags",
-          "ec2:DescribeInstanceTypes"
+          "ec2:DescribeInstanceTypes",
+          "ec2:DescribeTags"
         ],
         "Resource" : "*"
       },
