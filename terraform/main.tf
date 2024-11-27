@@ -9,7 +9,7 @@ provider "aws" {
 
 # Backend EC2 Instance
 resource "aws_instance" "backend" {
-  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI ID (Replace as needed)
+  ami           = "ami-033b5193317e5d5cf" # Amazon Linux 2 AMI ID (Replace as needed)
   instance_type = "t2.micro"
   # key_name      = aws_key_pair.BS_backend_key.key_name
 
@@ -73,22 +73,33 @@ resource "aws_iam_role" "BS_backend_role" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect    = "Allow",
-        Principal = { Service = "ec2.amazonaws.com" },
-        Action    = "sts:AssumeRole"
+        Effect = "Allow",
+        Action = [
+          "ec2:RunInstances",
+          "ec2:DescribeInstances",
+          "ec2:TerminateInstances",
+          "ec2:DescribeImages"
+        ],
+        Resource = "*"
       },
       {
-        Effect    = "Allow",
-        Principal = {
-          Federated = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
-        },
-        Action    = "sts:AssumeRoleWithWebIdentity",
-        Condition = {
-          StringLike = {
-            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-            "token.actions.githubusercontent.com:sub": "repo:${var.github_org}/${var.backend_repo_name}:*"
-          }
-        }
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "arn:aws:logs:ap-southeast-2:713292987965:log-group:booking-system-backend-log-group*"
+      },
+      {
+        Effect   = "Allow",
+        Action   = "iam:CreateRole",
+        Resource = "arn:aws:iam::713292987965:role/OIDC_role"
+      },
+      {
+        Effect   = "Allow",
+        Action   = "sts:AssumeRole",
+        Resource = "arn:aws:iam::713292987965:role/OIDC_role"
       }
     ]
   })
@@ -101,7 +112,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_attach" {
 
 resource "aws_iam_role_policy_attachment" "ec2_permissions_attach" {
   role       = aws_iam_role.BS_backend_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"  # Attach EC2 permissions here
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess" # Attach EC2 permissions here
 }
 
 resource "aws_cloudwatch_log_group" "BS_backend_log_group" {
