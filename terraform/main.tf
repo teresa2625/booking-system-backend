@@ -87,7 +87,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_attach" {
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_permissions_attach" {
-  role       = aws_iam_role.booking_system_backend_role.name
+  role       = aws_iam_role.BS_backend_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"  # Attach EC2 permissions here
 }
 
@@ -118,7 +118,7 @@ resource "aws_cloudwatch_metric_alarm" "BS_backend_error_alarm" {
   threshold           = "1"
   comparison_operator = "GreaterThanOrEqualToThreshold"
 
-  alarm_actions = ["arn:aws:sns:your-region:your-account-id:your-sns-topic"]
+  alarm_actions = ["arn:aws:sns:ap-southeast-4:${var.aws_account_id}:your-sns-topic"]
 }
 
 # Outputs
