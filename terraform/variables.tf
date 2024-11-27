@@ -13,3 +13,11 @@ variable "db_username" {
 variable "db_password" {
   description = "Database password"
 }
+
+variable "aws_account_id" {
+  description = "AWS account ID"
+}
+
+variable "github_org" {
+  description = "Github ORG"
+}
