@@ -66,53 +66,62 @@ resource "aws_instance" "backend" {
 #   ]
 # }
 
-resource "aws_iam_role" "BS_backend_role" {
-  name = "BS-backend-role"
+resource "aws_iam_policy" "backend_role_policy " {
+  name = "backend_role_policy "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : "iam:CreateRole",
+        "Resource" : "arn:aws:iam::*:role/BS-backend-role"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "ec2:RunInstances",
+          "ec2:DescribeInstances",
+          "ec2:TerminateInstances",
+          "ec2:CreateTags"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "logs:PutRetentionPolicy"
+        ],
+        "Resource" : "arn:aws:logs:ap-southeast-2:*:*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "OIDC_role" {
+  name = "OIDC_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
         Effect = "Allow",
-        Action = [
-          "ec2:RunInstances",
-          "ec2:DescribeInstances",
-          "ec2:TerminateInstances",
-          "ec2:DescribeImages"
-        ],
-        Resource = "*"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents"
-        ],
-        Resource = "arn:aws:logs:ap-southeast-2:713292987965:log-group:booking-system-backend-log-group*"
-      },
-      {
-        Effect   = "Allow",
-        Action   = "iam:CreateRole",
-        Resource = "arn:aws:iam::713292987965:role/OIDC_role"
-      },
-      {
-        Effect   = "Allow",
-        Action   = "sts:AssumeRole",
-        Resource = "arn:aws:iam::713292987965:role/OIDC_role"
+        Principal = {
+          Federated = "arn:aws:iam::713292987965:oidc-provider/token.actions.githubusercontent.com"
+        },
+        Action = "sts:AssumeRoleWithWebIdentity",
+        Condition = {
+          StringLike = {
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com",
+            "token.actions.githubusercontent.com:sub" = "repo:teresa2625/booking-system-backend:*"
+          }
+        }
       }
     ]
   })
-}
-
-resource "aws_iam_role_policy_attachment" "cloudwatch_attach" {
-  role       = aws_iam_role.BS_backend_role.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-}
-
-resource "aws_iam_role_policy_attachment" "ec2_permissions_attach" {
-  role       = aws_iam_role.BS_backend_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess" # Attach EC2 permissions here
 }
 
 resource "aws_cloudwatch_log_group" "BS_backend_log_group" {
