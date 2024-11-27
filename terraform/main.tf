@@ -67,7 +67,7 @@ resource "aws_instance" "backend" {
 # }
 
 resource "aws_iam_policy" "backend_role_policy " {
-  name = "backend_role_policy "
+  name = "backend-role-policy "
 
   policy = jsonencode({
     "Version" : "2012-10-17",
@@ -102,7 +102,7 @@ resource "aws_iam_policy" "backend_role_policy " {
 }
 
 resource "aws_iam_role" "OIDC_role" {
-  name = "OIDC_role"
+  name = "OIDC-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
