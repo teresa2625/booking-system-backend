@@ -9,7 +9,7 @@ provider "aws" {
 
 # Backend EC2 Instance
 resource "aws_instance" "backend" {
-  ami           = "ami-033b5193317e5d5cf" # Amazon Linux 2 AMI ID (Replace as needed)
+  ami           = "ami-0dbd9c83830eecdb7" # Amazon Linux 2 AMI ID (Replace as needed)
   instance_type = "t2.micro"
   # key_name      = aws_key_pair.BS_backend_key.key_name
 
