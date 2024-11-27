@@ -74,7 +74,11 @@ resource "aws_iam_policy" "backend_role_policy" {
     "Statement" : [
       {
         "Effect" : "Allow",
-        "Action" : "iam:CreateRole",
+        "Action" : [
+          "iam:CreateRole",
+          "iam:CreatePolicy",
+          "iam:CreateRole"
+        ],
         "Resource" : "arn:aws:iam::*:role/BS-backend-role"
       },
       {
@@ -83,7 +87,8 @@ resource "aws_iam_policy" "backend_role_policy" {
           "ec2:RunInstances",
           "ec2:DescribeInstances",
           "ec2:TerminateInstances",
-          "ec2:CreateTags"
+          "ec2:CreateTags",
+          "ec2:DescribeInstanceTypes"
         ],
         "Resource" : "*"
       },
