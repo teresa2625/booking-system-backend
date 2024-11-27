@@ -80,11 +80,11 @@ resource "aws_iam_role" "BS_backend_role" {
       {
         Effect    = "Allow",
         Principal = {
-          Federated = aws_iam_openid_connect_provider.github_oidc_provider.arn
+          Federated = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
         },
         Action    = "sts:AssumeRoleWithWebIdentity",
         Condition = {
-          StringEquals = {
+          StringLike = {
             "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
             "token.actions.githubusercontent.com:sub": "repo:${var.github_org}/${var.backend_repo_name}:*"
           }

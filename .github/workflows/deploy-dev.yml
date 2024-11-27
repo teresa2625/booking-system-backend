@@ -38,7 +38,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/BS-backend-role
+          role-to-assume: arn:aws:iam::713292987965:role/BS-backend-role
           aws-region: ap-southeast-2
 
       # Verify AWS Credentials
