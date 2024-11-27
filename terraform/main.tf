@@ -66,7 +66,7 @@ resource "aws_instance" "backend" {
 #   ]
 # }
 
-resource "aws_iam_policy" "backend_role_policy " {
+resource "aws_iam_policy" "backend_role_policy" {
   name = "backend_role_policy"
 
   policy = jsonencode({
