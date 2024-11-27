@@ -53,6 +53,19 @@ resource "aws_instance" "backend" {
               EOF
 }
 
+# OIDC provider for GitHub Actions
+resource "aws_iam_openid_connect_provider" "github_oidc_provider" {
+  url = "https://token.actions.githubusercontent.com"
+
+  client_id_list = [
+    "sts.amazonaws.com"
+  ]
+
+  thumbprint_list = [
+    "9e99a48a2bb4fb1a4a41ef65a4d6a0b0"
+  ]
+}
+
 resource "aws_iam_role" "BS_backend_role" {
   name = "BS-backend-role"
 
@@ -67,7 +80,7 @@ resource "aws_iam_role" "BS_backend_role" {
       {
         Effect    = "Allow",
         Principal = {
-          Federated = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
+          Federated = aws_iam_openid_connect_provider.github_oidc_provider.arn
         },
         Action    = "sts:AssumeRoleWithWebIdentity",
         Condition = {
