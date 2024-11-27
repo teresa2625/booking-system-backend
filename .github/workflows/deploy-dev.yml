@@ -52,6 +52,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::713292987965:role/BS_backend_role
           aws-region: ap-southeast-2
+          audience: sts.amazonaws.com
 
       # Verify AWS Credentials
       - name: Verify AWS Credentials
