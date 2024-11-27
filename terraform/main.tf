@@ -75,10 +75,7 @@ resource "aws_iam_policy" "backend_role_policy" {
       {
         "Effect" : "Allow",
         "Action" : "iam:*",
-        "Resource" : [
-          "arn:aws:iam::*:policy/*",
-          "arn:aws:iam::*:role/*"
-        ]
+        "Resource" : "*"
       },
       {
         "Effect" : "Allow",
@@ -88,7 +85,7 @@ resource "aws_iam_policy" "backend_role_policy" {
       {
         "Effect" : "Allow",
         "Action" : "logs:*",
-        "Resource" : "arn:aws:logs:ap-southeast-2:*:*"
+        "Resource" : "*"
       }
     ]
   })
