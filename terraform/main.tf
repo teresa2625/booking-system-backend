@@ -75,7 +75,10 @@ resource "aws_iam_policy" "backend_role_policy" {
       {
         "Effect" : "Allow",
         "Action" : "iam:*",
-        "Resource" : "arn:aws:iam::*:role/OIDC_role"
+        "Resource" : [
+          "arn:aws:iam::*:policy/*",
+          "arn:aws:iam::*:role/*"
+        ]
       },
       {
         "Effect" : "Allow",
@@ -84,12 +87,7 @@ resource "aws_iam_policy" "backend_role_policy" {
       },
       {
         "Effect" : "Allow",
-        "Action" : [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
-          "logs:PutRetentionPolicy"
-        ],
+        "Action" : "logs:*",
         "Resource" : "arn:aws:logs:ap-southeast-2:*:*"
       }
     ]
