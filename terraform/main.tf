@@ -54,17 +54,17 @@ resource "aws_instance" "backend" {
 }
 
 # OIDC provider for GitHub Actions
-resource "aws_iam_openid_connect_provider" "github_oidc_provider" {
-  url = "https://token.actions.githubusercontent.com"
+# resource "aws_iam_openid_connect_provider" "github_oidc_provider" {
+#   url = "https://token.actions.githubusercontent.com"
 
-  client_id_list = [
-    "sts.amazonaws.com"
-  ]
+#   client_id_list = [
+#     "sts.amazonaws.com"
+#   ]
 
-  thumbprint_list = [
-    "9e99a48a2bb4fb1a4a41ef65a4d6a0b0"
-  ]
-}
+#   thumbprint_list = [
+#     "6938fd4d98bab03faadb97b34396831e3780aea1"
+#   ]
+# }
 
 resource "aws_iam_role" "BS_backend_role" {
   name = "BS-backend-role"
