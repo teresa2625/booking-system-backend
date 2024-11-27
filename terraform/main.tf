@@ -85,7 +85,7 @@ resource "aws_iam_role" "BS_backend_role" {
         Action    = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:aud": "*",
+            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
             "token.actions.githubusercontent.com:sub": "repo:${var.github_org}/${var.backend_repo_name}:*"
           }
         }

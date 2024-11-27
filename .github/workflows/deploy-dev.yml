@@ -49,11 +49,6 @@ jobs:
           aws-region: ap-southeast-2
           audience: sts.amazonaws.com
 
-      - name: Debug OIDC Token
-        run: |
-          ID_TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r .value)
-          echo $ID_TOKEN | base64
-
       # Verify AWS Credentials
       - name: Verify AWS Credentials
         run: aws sts get-caller-identity
