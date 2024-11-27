@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "ap-southeast-4" # Adjust to your region
+  region = "ap-southeast-2" # Adjust to your region
 }
 
 resource "aws_key_pair" "BS_backend_key" {
@@ -131,7 +131,7 @@ resource "aws_cloudwatch_metric_alarm" "BS_backend_error_alarm" {
   threshold           = "1"
   comparison_operator = "GreaterThanOrEqualToThreshold"
 
-  alarm_actions = ["arn:aws:sns:ap-southeast-4:${var.aws_account_id}:your-sns-topic"]
+  alarm_actions = ["arn:aws:sns:ap-southeast-2:${var.aws_account_id}:your-sns-topic"]
 }
 
 # Outputs
