@@ -145,6 +145,6 @@ resource "aws_cloudwatch_metric_alarm" "BS_backend_error_alarm" {
 }
 
 # Outputs
-# output "backend_api_url" {
-#   value = "http://${aws_instance.backend.public_ip}:3000"
-# }
+output "backend_api_url" {
+  value = "http://${aws_instance.backend.public_ip}:3000"
+}
