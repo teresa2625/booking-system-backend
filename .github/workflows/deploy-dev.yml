@@ -65,7 +65,7 @@ jobs:
 
       # Terraform Plan (optional but recommended)
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan
         working-directory: terraform/
 
       # Terraform Apply
