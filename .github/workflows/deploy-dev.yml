@@ -67,9 +67,6 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan
         working-directory: terraform/
-        env:
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
 
       # Terraform Apply
       - name: Terraform Apply
