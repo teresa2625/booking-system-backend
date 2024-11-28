@@ -4,7 +4,6 @@ provider "aws" {
 
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "bs-terraform-state-bucket" # Replace with a unique name
-  region = "ap-southeast-2"
 }
 
 resource "aws_dynamodb_table" "terraform_lock" {
