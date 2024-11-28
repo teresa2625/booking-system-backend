@@ -65,7 +65,7 @@ jobs:
 
       # Terraform Plan (optional but recommended)
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -var="db_password=${{ env.DB_PASSWORD }} db_username=${{ env.DB_USERNAME }}" -out=tfplan
         working-directory: terraform/
 
       # Terraform Apply
