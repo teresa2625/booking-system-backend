@@ -63,14 +63,17 @@ jobs:
         run: terraform init -reconfigure
         working-directory: terraform/
 
+      - name: Check state
+        run: terraform state list
+
       # Import Resources
-      - name: Import Resources
-        run: |
-          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_openid_connect_provider.oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
-          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_policy.backend_role_policy arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:policy/backend_role_policy
-          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_role.oidc_role arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/OIDC_role
-          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_cloudwatch_log_group.backend_log_group booking-system-backend-log-group
-        working-directory: terraform/
+      # - name: Import Resources
+      #   run: |
+      #     terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_openid_connect_provider.oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
+      #     terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_policy.backend_role_policy arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:policy/backend_role_policy
+      #     terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_role.oidc_role arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/OIDC_role
+      #     terraform import -var="db_password=dummy" -var="db_username=dummy" aws_cloudwatch_log_group.backend_log_group booking-system-backend-log-group
+      #   working-directory: terraform/
 
       # Terraform Plan (optional but recommended)
       - name: Terraform Plan
