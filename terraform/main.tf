@@ -2,6 +2,21 @@ provider "aws" {
   region = "ap-southeast-2" # Adjust to your region
 }
 
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "terraform-state-bucket" # Replace with a unique name
+}
+
+resource "aws_dynamodb_table" "terraform_lock" {
+  name         = "terraform-lock-table"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+}
+
+
 # resource "aws_key_pair" "BS_backend_key" {
 #   key_name   = "BS-backend-key"  # Replace with the desired name for the key pair
 #   public_key = file("C:/Users/teres/.ssh/id_rsa.pub")  # Path to your local public key
