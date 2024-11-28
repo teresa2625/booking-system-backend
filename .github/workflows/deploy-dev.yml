@@ -67,7 +67,6 @@ jobs:
       - name: Import Resources
         run: |
           aws iam get-role --role-name OIDC_role || echo "Role OIDC_role does not exist, skipping import."
-          terraform state rm aws_iam_role.oidc_role
           terraform import aws_iam_role.oidc_role arn:aws:iam::713292987965:role/OIDC_role
         working-directory: terraform/
 
