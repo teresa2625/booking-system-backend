@@ -111,6 +111,11 @@ resource "aws_iam_policy" "backend_role_policy" {
         "Effect" : "Allow",
         "Action" : "s3:*",
         "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : "dynamodb:*",
+        "Resource" : "*"
       }
     ]
   })
