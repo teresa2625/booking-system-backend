@@ -75,13 +75,13 @@ jobs:
 
       # Terraform Init
       - name: Terraform Init
-        env:
-          TF_LOG: DEBUG
-        run: terraform init -migrate-state
+        run: terraform init -reconfigure
         working-directory: terraform/
 
       # Terraform Plan (optional but recommended)
       - name: Terraform Plan
+        env:
+          TF_LOG: DEBUG
         run: |
           terraform plan \
             -var="db_password=${{ env.DB_PASSWORD }}" \
