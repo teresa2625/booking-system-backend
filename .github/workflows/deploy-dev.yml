@@ -89,6 +89,6 @@ jobs:
         run: terraform state list || echo "No existing state found."
 
       # Save Backend API URL
-      # - name: Save Backend API URL
-      #   run: echo "BACKEND_API_URL=$(terraform output -raw backend_api_url)" >> $GITHUB_ENV
-      #   working-directory: terraform/
+      - name: Get Backend API URL
+        run: terraform output backend_api_url
+        working-directory: terraform/

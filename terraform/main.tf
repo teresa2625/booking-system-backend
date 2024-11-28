@@ -101,8 +101,7 @@ resource "aws_iam_policy" "backend_role_policy" {
         "Effect" : "Allow",
         "Action" : [
           "logs:*",
-          "cloudwatch:*",
-          "s3:*"
+          "cloudwatch:*"
         ],
         "Resource" : "*"
       },
