@@ -58,20 +58,6 @@ jobs:
         with:
           terraform_version: 1.5.6
 
-      - name: Print current working directory
-        run: pwd
-
-      - name: List all files in current directory
-        run: ls -alh
-
-      - name: Check if terraform.tfstate exists
-        run: |
-          if [ -f terraform.tfstate ]; then
-            echo "State file exists!"
-          else
-            echo "No state file found"
-          fi
-
       # Terraform Init
       - name: Terraform Init
         run: terraform init -reconfigure
@@ -80,7 +66,6 @@ jobs:
       # Import Resources
       - name: Import Resources
         run: |
-          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_s3_bucket.terraform_state bs-terraform-state-bucket
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_openid_connect_provider.oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_policy.backend_role_policy arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:policy/backend_role_policy
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_role.oidc_role arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/OIDC_role
