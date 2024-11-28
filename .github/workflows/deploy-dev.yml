@@ -64,10 +64,10 @@ jobs:
         working-directory: terraform/
 
       # Import Resources
-      - name: Import Resources
-        run: |
-          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_cloudwatch_log_group.BS_backend_log_group booking-system-backend-log-group
-        working-directory: terraform/
+      # - name: Import Resources
+      #   run: |
+      #     terraform import -var="db_password=dummy" -var="db_username=dummy" aws_cloudwatch_log_group.BS_backend_log_group booking-system-backend-log-group
+      #   working-directory: terraform/
 
       # Terraform Plan (optional but recommended)
       - name: Terraform Plan
@@ -85,6 +85,7 @@ jobs:
         run: terraform apply -auto-approve tfplan
         working-directory: terraform/
         env:
+          TF_LOG: DEBUG
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
           DB_USERNAME: ${{ env.DB_USERNAME }}
