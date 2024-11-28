@@ -78,6 +78,17 @@ jobs:
         run: terraform init -reconfigure
         working-directory: terraform/
 
+      # Import Resources
+      - name: Import Resources
+        run: |
+          terraform import aws_s3_bucket.terraform_state bs-terraform-state-bucket
+          terraform import aws_dynamodb_table.terraform_lock_table bs-terraform-lock-table
+          terraform import aws_iam_openid_connect_provider.oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
+          terraform import aws_iam_policy.backend_role_policy arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:policy/backend_role_policy
+          terraform import aws_iam_role.oidc_role arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/OIDC_role
+          terraform import aws_cloudwatch_log_group.backend_log_group booking-system-backend-log-group
+        working-directory: terraform/
+
       # Terraform Plan (optional but recommended)
       - name: Terraform Plan
         env:
