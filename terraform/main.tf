@@ -54,65 +54,65 @@ resource "aws_instance" "backend" {
 }
 
 # OIDC provider for GitHub Actions
-# resource "aws_iam_openid_connect_provider" "github_oidc_provider" {
-#   url = "https://token.actions.githubusercontent.com"
+resource "aws_iam_openid_connect_provider" "github_oidc_provider" {
+  url = "https://token.actions.githubusercontent.com"
 
-#   client_id_list = [
-#     "sts.amazonaws.com"
-#   ]
+  client_id_list = [
+    "sts.amazonaws.com"
+  ]
 
-#   thumbprint_list = [
-#     "6938fd4d98bab03faadb97b34396831e3780aea1"
-#   ]
-# }
+  thumbprint_list = [
+    "6938fd4d98bab03faadb97b34396831e3780aea1"
+  ]
+}
 
-# resource "aws_iam_policy" "backend_role_policy" {
-#   name = "backend_role_policy"
+resource "aws_iam_policy" "backend_role_policy" {
+  name = "backend_role_policy"
 
-#   policy = jsonencode({
-#     "Version" : "2012-10-17",
-#     "Statement" : [
-#       {
-#         "Effect" : "Allow",
-#         "Action" : "iam:*",
-#         "Resource" : "*"
-#       },
-#       {
-#         "Effect" : "Allow",
-#         "Action" : "ec2:*",
-#         "Resource" : "*"
-#       },
-#       {
-#         "Effect" : "Allow",
-#         "Action" : ["logs:*", "cloudwatch:*"],
-#         "Resource" : "*"
-#       }
-#     ]
-#   })
-# }
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : "iam:*",
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : "ec2:*",
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : ["logs:*", "cloudwatch:*"],
+        "Resource" : "*"
+      }
+    ]
+  })
+}
 
-# resource "aws_iam_role" "OIDC_role" {
-#   name = "OIDC_role"
+resource "aws_iam_role" "OIDC_role" {
+  name = "OIDC_role"
 
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         Effect = "Allow",
-#         Principal = {
-#           Federated = "arn:aws:iam::713292987965:oidc-provider/token.actions.githubusercontent.com"
-#         },
-#         Action = "sts:AssumeRoleWithWebIdentity",
-#         Condition = {
-#           StringLike = {
-#             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com",
-#             "token.actions.githubusercontent.com:sub" = "repo:teresa2625/booking-system-backend:*"
-#           }
-#         }
-#       }
-#     ]
-#   })
-# }
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Federated = "arn:aws:iam::713292987965:oidc-provider/token.actions.githubusercontent.com"
+        },
+        Action = "sts:AssumeRoleWithWebIdentity",
+        Condition = {
+          StringLike = {
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com",
+            "token.actions.githubusercontent.com:sub" = "repo:teresa2625/booking-system-backend:*"
+          }
+        }
+      }
+    ]
+  })
+}
 
 resource "aws_cloudwatch_log_group" "BS_backend_log_group" {
   name              = "booking-system-backend-log-group"

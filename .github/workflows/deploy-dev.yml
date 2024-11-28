@@ -36,11 +36,6 @@ jobs:
         run: |
           yarn install
 
-      # - name: Debug Environment
-      #   run: |
-      #     echo "AWS_ACCESS_KEY_ID=${{ env.AWS_ACCESS_KEY_ID }}"
-      #     echo "AWS_SECRET_ACCESS_KEY=${{ env.AWS_SECRET_ACCESS_KEY }}"
-
       # Configure AWS Credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -70,12 +65,15 @@ jobs:
 
       # Terraform Plan (optional but recommended)
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan
         working-directory: terraform/
+        env:
+          DB_USERNAME: ${{ env.DB_USERNAME }}
+          DB_PASSWORD: ${{ env.DB_PASSWORD }}
 
       # Terraform Apply
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
         working-directory: terraform/
         env:
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
