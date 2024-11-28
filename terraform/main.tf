@@ -120,7 +120,7 @@ resource "aws_iam_policy" "backend_role_policy" {
   })
 }
 
-resource "aws_iam_role" "OIDC_role" {
+resource "aws_iam_role" "oidc_role" {
   name = "OIDC_role"
 
   assume_role_policy = jsonencode({
