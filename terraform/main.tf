@@ -85,37 +85,42 @@ resource "aws_iam_policy" "backend_role_policy" {
   name = "backend_role_policy"
 
   policy = jsonencode({
-    "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Effect" : "Allow",
         "Action" : "iam:*",
+        "Effect" : "Allow",
         "Resource" : "*"
       },
       {
-        "Effect" : "Allow",
         "Action" : "ec2:*",
+        "Effect" : "Allow",
         "Resource" : "*"
       },
       {
-        "Effect" : "Allow",
         "Action" : [
           "logs:*",
           "cloudwatch:*"
         ],
+        "Effect" : "Allow",
         "Resource" : "*"
       },
       {
-        "Effect" : "Allow",
         "Action" : "s3:*",
+        "Effect" : "Allow",
+        "Resource" : "*"
+      },
+      {
+        "Action" : "dynamodb:*",
+        "Effect" : "Allow",
         "Resource" : "*"
       },
       {
         "Effect" : "Allow",
-        "Action" : "dynamodb:*",
-        "Resource" : "*"
+        "Resource" : "*",
+        "Action" : "cloudfront:*"
       }
-    ]
+    ],
+    "Version" : "2012-10-17"
   })
 }
 
