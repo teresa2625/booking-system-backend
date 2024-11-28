@@ -81,7 +81,6 @@ jobs:
       - name: Import Resources
         run: |
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_s3_bucket.terraform_state bs-terraform-state-bucket
-          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_dynamodb_table.terraform_lock_table bs-terraform-lock-table
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_openid_connect_provider.oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_policy.backend_role_policy arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:policy/backend_role_policy
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_role.oidc_role arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/OIDC_role
