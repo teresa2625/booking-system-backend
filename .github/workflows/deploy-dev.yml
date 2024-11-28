@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
     steps:
       # Checkout the code
@@ -60,18 +60,17 @@ jobs:
 
       - name: Print current working directory
         run: pwd
-        
+
       - name: List all files in current directory
         run: ls -alh
-        
+
       - name: Check if terraform.tfstate exists
         run: |
-            if [ -f terraform.tfstate ]; then
-              echo "State file exists!"
-            else
-              echo "No state file found"
-            fi
-        
+          if [ -f terraform.tfstate ]; then
+            echo "State file exists!"
+          else
+            echo "No state file found"
+          fi
 
       # Terraform Init
       - name: Terraform Init
@@ -81,12 +80,12 @@ jobs:
       # Import Resources
       - name: Import Resources
         run: |
-          terraform import aws_s3_bucket.terraform_state bs-terraform-state-bucket
-          terraform import aws_dynamodb_table.terraform_lock_table bs-terraform-lock-table
-          terraform import aws_iam_openid_connect_provider.oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
-          terraform import aws_iam_policy.backend_role_policy arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:policy/backend_role_policy
-          terraform import aws_iam_role.oidc_role arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/OIDC_role
-          terraform import aws_cloudwatch_log_group.backend_log_group booking-system-backend-log-group
+          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_s3_bucket.terraform_state bs-terraform-state-bucket
+          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_dynamodb_table.terraform_lock_table bs-terraform-lock-table
+          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_openid_connect_provider.oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
+          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_policy.backend_role_policy arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:policy/backend_role_policy
+          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_role.oidc_role arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/OIDC_role
+          terraform import -var="db_password=dummy" -var="db_username=dummy" aws_cloudwatch_log_group.backend_log_group booking-system-backend-log-group
         working-directory: terraform/
 
       # Terraform Plan (optional but recommended)
@@ -109,7 +108,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
           DB_USERNAME: ${{ env.DB_USERNAME }}
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
-      
+
       - name: Check Terraform State
         run: terraform state list || echo "No existing state found."
 
