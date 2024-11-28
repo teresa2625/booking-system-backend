@@ -66,7 +66,7 @@ jobs:
       # Import Resources
       - name: Import Resources
         run: |
-          terraform init -reconfigure
+          terraform state rm aws_s3_bucket.terraform_state || echo "Resource not found in state, continuing..."
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_s3_bucket.terraform_state bs-terraform-state-bucket
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_dynamodb_table.terraform_lock bs-terraform-lock-table
           terraform import -var="db_password=dummy" -var="db_username=dummy" aws_iam_openid_connect_provider.github_oidc_provider arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:oidc-provider/token.actions.githubusercontent.com
