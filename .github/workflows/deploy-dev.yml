@@ -63,9 +63,6 @@ jobs:
         run: terraform init -reconfigure
         working-directory: terraform/
 
-      - name: Check state
-        run: terraform state list
-
       # Import Resources
       # - name: Import Resources
       #   run: |
