@@ -57,33 +57,36 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.6
+      
+      - name: Find Terraform State 
+        run: find . -name "terraform.tfstate"
 
       # Terraform Init
-      - name: Terraform Init
-        run: terraform init
-        working-directory: terraform/
+      # - name: Terraform Init
+      #   run: terraform init
+      #   working-directory: terraform/
 
       # Terraform Plan (optional but recommended)
-      - name: Terraform Plan
-        run: |
-          terraform plan \
-            -var="db_password=${{ env.DB_PASSWORD }}" \
-            -var="db_username=${{ env.DB_USERNAME }}" \
-            -out=tfplan
-        working-directory: terraform/
+      # - name: Terraform Plan
+      #   run: |
+      #     terraform plan \
+      #       -var="db_password=${{ env.DB_PASSWORD }}" \
+      #       -var="db_username=${{ env.DB_USERNAME }}" \
+      #       -out=tfplan
+      #   working-directory: terraform/
 
       # Terraform Apply
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
-        working-directory: terraform/
-        env:
-          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve tfplan
+      #   working-directory: terraform/
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+      #     DB_USERNAME: ${{ env.DB_USERNAME }}
+      #     DB_PASSWORD: ${{ env.DB_PASSWORD }}
       
-      - name: Check Terraform State
-        run: terraform state list || echo "No existing state found."
+      # - name: Check Terraform State
+      #   run: terraform state list || echo "No existing state found."
 
       # Save Backend API URL
       # - name: Save Backend API URL
