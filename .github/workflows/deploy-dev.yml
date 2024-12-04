@@ -49,46 +49,4 @@ jobs:
         run: aws sts get-caller-identity
 
       # - name: Run tests
-      #   run: |
-      #     yarn test
-
-      # Set Up Terraform
-      - name: Set Up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.5.6
-
-      # Terraform Init
-      - name: Terraform Init
-        run: terraform init -reconfigure
-        working-directory: terraform/
-
-      # Terraform Plan (optional but recommended)
-      - name: Terraform Plan
-        env:
-          TF_LOG: DEBUG
-        run: |
-          terraform plan \
-            -var="db_password=${{ env.DB_PASSWORD }}" \
-            -var="db_username=${{ env.DB_USERNAME }}" \
-            -out=tfplan
-        working-directory: terraform/
-
-      # Terraform Apply
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
-        working-directory: terraform/
-        env:
-          TF_LOG: DEBUG
-          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
-
-      - name: Check Terraform State
-        run: terraform state list || echo "No existing state found."
-
-      # Save Backend API URL
-      - name: Get Backend API URL
-        run: terraform output backend_api_url
-        working-directory: terraform/
+      #   run: yarn test

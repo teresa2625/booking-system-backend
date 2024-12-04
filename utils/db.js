@@ -1,4 +1,5 @@
 const { Client } = require("pg");
+require("dotenv").config();
 
 // Database connection function
 const getClient = () => {
