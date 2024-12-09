@@ -74,13 +74,12 @@ const UserModel = {
       await this.checkAndSyncTable();
       const today = new Date();
 
-      const hashedPassword = await bcrypt.hash(password, 10);
       const result = await client.query(
         "INSERT INTO users (user_first_name, user_last_name, password, customer_email, customer_phone, role, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, customer_email, role",
         [
           userFirstName,
           userLastName,
-          hashedPassword,
+          password,
           emailAddress,
           phoneNumber,
           role,

@@ -9,7 +9,6 @@ const AuthController = {
   registerUser: async (req, res) => {
     const { userFirstName, userLastName, password, emailAdd, phoneNum, roles } =
       req.body;
-    console.log("req.body", req.body);
 
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -42,7 +41,6 @@ const AuthController = {
 
   loginUser: async (req, res) => {
     const { emailAdd, password } = req.body;
-
     try {
       const user = await UserModel.getUserByUsername(emailAdd);
 
@@ -55,7 +53,7 @@ const AuthController = {
         }
       }
 
-      const isMatch = await bcrypt.compare(password, user.password_hash);
+      const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
         if (!res.headersSent) {
@@ -66,7 +64,7 @@ const AuthController = {
         }
       }
 
-      const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
+      const token = jwt.sign({ userId: user.id, role: user.role }, SECRET_KEY, {
         expiresIn: "1h",
       });
 
