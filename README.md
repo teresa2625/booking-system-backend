@@ -139,22 +139,21 @@ Now, you can access the application by navigating to http://localhost:3000 in yo
   1. Open the app: http://localhost:3000
   2. Navigate to the Book Appointment page.
   3. Fill in:
-
-  - Name
-  - Contact details
-  - Preferred date and time
-  - Submit the form.
+     - Name
+     - Contact details
+     - Preferred date and time
+     - Submit the form.
 
 - Sign Up / Login
   1. Open the app and go to the Login page.
   2. To Sign Up:
-  - Click "Sign Up"
-  - Enter your details
-  - Submit the form
+     - Click "Sign Up"
+     - Enter your details
+     - Submit the form
   3. To Log In:
-  - Enter your registered email and password
-  - Submit the form
-  - Upon login, your access token will be saved to local storage.
+     - Enter your registered email and password
+     - Submit the form
+     - Upon login, your access token will be saved to local storage.
 
 ## API Endpoints
 
