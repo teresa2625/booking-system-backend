@@ -2,7 +2,7 @@
 
 ## Overview
 
-This **Booking System** is a web application designed for clinic appointment scheduling. It allows users to **book appointments**, **sign up** for accounts, and **track booking details** or **dashboard based on roles**. The project uses a React frontend, Node.js backend, PostgreSQL database, and is deployed on AWS.
+This **Booking System** is a web application designed for clinic appointment scheduling. It allows users to **book appointments**, **sign up** for accounts, and _track booking details_ or _dashboard based on roles_. The project uses a **React frontend, Node.js backend, PostgreSQL database**, and is deployed on **AWS**.
 
 ## Technologies Used
 
@@ -203,6 +203,7 @@ Now, you can access the application by navigating to http://localhost:3000 in yo
 ## TODO: Upcoming Features
 
 - Frontend Improvements:
+  - Improve Sign up/Login workflow and pages
   - Build feature pages.
   - Role-based dashboards.
   - Add input validation and improved error handling.
