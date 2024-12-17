@@ -6,9 +6,9 @@ const server = http.createServer((req, res) => {
   const { pathname } = require("url").parse(req.url, true);
 
   if (pathname.startsWith("/auth")) {
-    authRoutes(req, res); // Call auth routes for /auth paths
+    authRoutes(req, res);
   } else if (pathname.startsWith("/booking")) {
-    bookingRoutes(req, res); // Call booking routes for /booking paths
+    bookingRoutes(req, res);
   } else {
     if (!res.headersSent) {
       res.statusCode = 404;

@@ -1,9 +1,9 @@
 provider "aws" {
-  region = "ap-southeast-2" # Adjust to your region
+  region = "ap-southeast-2"
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "bs-terraform-state-bucket" # Replace with a unique name
+  bucket = "bs-terraform-state-bucket"
 }
 
 resource "aws_dynamodb_table" "terraform_lock" {
@@ -18,13 +18,13 @@ resource "aws_dynamodb_table" "terraform_lock" {
 
 
 # resource "aws_key_pair" "BS_backend_key" {
-#   key_name   = "BS-backend-key"  # Replace with the desired name for the key pair
-#   public_key = file("C:/Users/teres/.ssh/id_rsa.pub")  # Path to your local public key
+#   key_name   = "BS-backend-key"
+#   public_key = file("C:/Users/teres/.ssh/id_rsa.pub")
 # }
 
 # Backend EC2 Instance
 resource "aws_instance" "backend" {
-  ami           = "ami-0dbd9c83830eecdb7" # Amazon Linux 2 AMI ID (Replace as needed)
+  ami           = "ami-0dbd9c83830eecdb7"
   instance_type = "t2.micro"
   # key_name      = aws_key_pair.BS_backend_key.key_name
 

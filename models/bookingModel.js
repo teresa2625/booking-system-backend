@@ -1,7 +1,6 @@
 const { getClient } = require("../utils/db");
 
 const BookingModel = {
-  // Expected table schema
   schema: {
     id: "SERIAL PRIMARY KEY",
     customer_name: "VARCHAR(100)",
@@ -12,13 +11,11 @@ const BookingModel = {
     status: "VARCHAR(50)",
   },
 
-  // Method to check and create/update the table schema
   checkAndSyncTable: async function () {
-    const client = getClient(); // Create a new client instance
+    const client = getClient();
     try {
       await client.connect();
 
-      // Check if the table exists
       const tableCheck = await client.query(
         `SELECT EXISTS (
           SELECT * FROM information_schema.tables 
@@ -26,7 +23,6 @@ const BookingModel = {
         );`,
       );
 
-      // If the table doesn't exist, create it
       if (!tableCheck.rows[0].exists) {
         const columns = Object.entries(this.schema)
           .map(([name, type]) => `${name} ${type}`)
@@ -35,7 +31,6 @@ const BookingModel = {
         await client.query(`CREATE TABLE bookings (${columns});`);
         console.log("Created table 'bookings'.");
       } else {
-        // If the table exists, ensure it has the correct columns
         const columnCheck = await client.query(
           `SELECT column_name 
            FROM information_schema.columns 
@@ -44,7 +39,6 @@ const BookingModel = {
 
         const existingColumns = columnCheck.rows.map((row) => row.column_name);
 
-        // Add missing columns
         for (const [name, type] of Object.entries(this.schema)) {
           if (!existingColumns.includes(name)) {
             await client.query(
@@ -54,7 +48,6 @@ const BookingModel = {
           }
         }
 
-        // (Optional) Handle extra columns by removing them
         for (const column of existingColumns) {
           if (!this.schema[column]) {
             await client.query(`ALTER TABLE bookings DROP COLUMN ${column};`);
@@ -70,7 +63,6 @@ const BookingModel = {
     }
   },
 
-  // Insert a new booking, ensuring the table schema is correct
   create: async function (
     customerName,
     customerEmail,
@@ -78,7 +70,7 @@ const BookingModel = {
     bookingDate,
     bookingTime,
   ) {
-    const client = getClient(); // Create a new client instance
+    const client = getClient();
     try {
       await client.connect();
       await this.checkAndSyncTable();
@@ -103,7 +95,7 @@ const BookingModel = {
   },
 
   getAll: async function () {
-    const client = getClient(); // Create a new client instance
+    const client = getClient();
     try {
       await client.connect();
       const res = await client.query("SELECT * FROM bookings");

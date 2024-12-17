@@ -21,7 +21,6 @@ const AuthController = {
         roles,
       );
 
-      // Send a success response once
       if (!res.headersSent) {
         res.statusCode = 201;
         return res.end(
