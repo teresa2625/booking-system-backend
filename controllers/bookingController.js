@@ -2,7 +2,7 @@ const { BookingModel } = require("../models/bookingModel");
 
 const BookingController = {
   addBooking: async (req, res) => {
-    const { name, email, phone, date, time } = req.body;
+    const { name, email, phone, date, time, status } = req.body;
     console.log("req.body", req.body);
     try {
       const newBooking = await BookingModel.create(
@@ -11,6 +11,7 @@ const BookingController = {
         phone,
         date,
         time,
+        status,
       );
 
       res.statusCode = 201;
@@ -21,6 +22,23 @@ const BookingController = {
       res.statusCode = 500;
       res.setHeader("Content-Type", "application/json");
       res.end(JSON.stringify({ error: "Failed to create booking" }));
+    }
+  },
+
+  updateBooking: async (req, res) => {
+    const { status, note, id } = req.body;
+    console.log("req.body", req.body);
+    try {
+      const doctorUpdateBooking = await BookingModel.update(status, note, id);
+
+      res.statusCode = 201;
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify(doctorUpdateBooking));
+    } catch (error) {
+      console.error("Error in updateBooking:", error.stack);
+      res.statusCode = 500;
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify({ error: "Failed to update booking" }));
     }
   },
 

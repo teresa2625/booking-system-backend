@@ -9,6 +9,7 @@ const BookingModel = {
     booking_date: "DATE",
     booking_time: "TIME",
     status: "VARCHAR(50)",
+    note: "VARCHAR(500)",
   },
 
   checkAndSyncTable: async function () {
@@ -69,6 +70,7 @@ const BookingModel = {
     customerPhone,
     bookingDate,
     bookingTime,
+    bookingStatus,
   ) {
     const client = getClient();
     try {
@@ -76,8 +78,8 @@ const BookingModel = {
       await this.checkAndSyncTable();
 
       const query = `
-        INSERT INTO bookings (customer_name, customer_email, customer_phone, booking_date, booking_time)
-        VALUES ($1, $2, $3, $4, $5) RETURNING *;
+        INSERT INTO bookings (customer_name, customer_email, customer_phone, booking_date, booking_time, status)
+        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
       `;
       const values = [
         customerName,
@@ -85,11 +87,30 @@ const BookingModel = {
         customerPhone,
         bookingDate,
         bookingTime,
+        bookingStatus,
       ];
       const res = await client.query(query, values);
       return res.rows[0];
     } catch (err) {
       console.error("Error inserting booking:", err.stack);
+      throw err;
+    }
+  },
+
+  update: async function (bookingStatus, doctorNotes, id) {
+    const client = getClient();
+    try {
+      await client.connect();
+      await this.checkAndSyncTable();
+
+      const query = `
+      UPDATE bookings SET (status, note) = ($1, $2) WHERE (id) = ($3) RETURNING *;
+      `;
+      const values = [bookingStatus, doctorNotes, id];
+      const res = await client.query(query, values);
+      return res.rows[0];
+    } catch (err) {
+      console.error("Error update booking:", err.stack);
       throw err;
     }
   },
