@@ -5,12 +5,14 @@ const BookingModel = {
     id: "SERIAL PRIMARY KEY",
     customer_name: "VARCHAR(100)",
     customer_email: "VARCHAR(100)",
-    customer_phone: "VARCHAR(100)",
+    customer_phone: "VARCHAR(50)",
+    doctor: "VARCHAR(50)",
     booking_date: "DATE",
     booking_time: "TIME",
     status: "VARCHAR(50)",
-    note: "VARCHAR(500)",
   },
+
+  // TODO: check is slot available in backend
 
   checkAndSyncTable: async function () {
     const client = getClient();
@@ -64,10 +66,26 @@ const BookingModel = {
     }
   },
 
+  isSlotAvailable: async function (date, time) {
+    const client = getClient();
+    try {
+      await client.connect();
+      const res = await pool.query(
+        "SELECT COUNT(*) FROM bookings WHERE booking_date = $1 AND booking_time = $2",
+        [date, time],
+      );
+      return res.rows[0].count == 0;
+    } catch (err) {
+      console.error("Error fetching exist bookings:", err.stack);
+      throw err;
+    }
+  },
+
   create: async function (
     customerName,
     customerEmail,
     customerPhone,
+    doctor,
     bookingDate,
     bookingTime,
     bookingStatus,
@@ -77,14 +95,18 @@ const BookingModel = {
       await client.connect();
       await this.checkAndSyncTable();
 
+      // const available = await isSlotAvailable(bookingDate, bookingTime);
+      // if (!available) throw new Error("Slot already booked");
+
       const query = `
-        INSERT INTO bookings (customer_name, customer_email, customer_phone, booking_date, booking_time, status)
-        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
+        INSERT INTO bookings (customer_name, customer_email, customer_phone, doctor, booking_date, booking_time, status)
+        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
       `;
       const values = [
         customerName,
         customerEmail,
         customerPhone,
+        doctor,
         bookingDate,
         bookingTime,
         bookingStatus,
@@ -126,34 +148,23 @@ const BookingModel = {
       throw err;
     }
   },
+
+  getByDoctor: async function (doctor) {
+    const client = getClient();
+    try {
+      await client.connect();
+
+      const query = `
+      SELECT * FROM bookings WHERE (doctor) = ($1);
+      `;
+      const values = [doctor];
+      const res = await client.query(query, values);
+      return res.rows;
+    } catch (err) {
+      console.error("Error fetching bookings by doctor:", err.stack);
+      throw err;
+    }
+  },
 };
 
 module.exports = { BookingModel };
-
-// const createBooking = async (bookingData) => {
-//   try {
-//     const res = await client.query("SELECT NOW()");
-//     console.log("Database time:", res.rows[0].now);
-//   } catch (err) {
-//     console.error("Query error", err.stack);
-//   } finally {
-//     client.end(); // Close the connection
-//   }
-
-//   testQuery();
-//   // const query = `
-//   //   INSERT INTO bookings (name, email, phone, booking_date, service)
-//   //   VALUES ($1, $2, $3, $4, $5) RETURNING *;
-//   // `;
-//   // const values = [
-//   //   bookingData.name,
-//   //   bookingData.email,
-//   //   bookingData.phone,
-//   //   bookingData.booking_date,
-//   //   bookingData.service,
-//   // ];
-//   // const result = await client.query(query, values);
-//   // return result.rows[0];
-// };
-
-// module.exports = { createBooking };

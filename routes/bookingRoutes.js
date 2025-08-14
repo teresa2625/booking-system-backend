@@ -14,8 +14,14 @@ const bookingRoutes = async (req, res) => {
   }
 
   if (req.method === "GET") {
-    console.log("req", req.body);
-    await BookingController.getBookings(req, res);
+    const reqUrl = new URL(req.url, `http://${req.headers.host}`);
+    const doctor = reqUrl.searchParams.get("doctor");
+    console.log("req", doctor);
+    if (doctor) {
+      await BookingController.getBookingsByDoctor(req, res, doctor);
+    } else {
+      await BookingController.getBookings(req, res);
+    }
   } else if (req.method === "POST") {
     let body = "";
     req.on("data", (chunk) => {
