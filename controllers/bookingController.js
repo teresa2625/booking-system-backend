@@ -65,10 +65,10 @@ const BookingController = {
       res.setHeader("Content-Type", "application/json");
       res.end(JSON.stringify(bookings));
     } catch (error) {
-      console.error("Error in getBookings:", error.stack);
+      console.error("Error in getBookingsByDoctor:", error.stack);
       res.statusCode = 500;
       res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ error: "Failed to retrieve bookings" }));
+      res.end(JSON.stringify({ error: "Failed to retrieve bookings by doctor" }));
     }
   },
 };
