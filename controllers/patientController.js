@@ -5,11 +5,7 @@ const PatientController = {
     const { name, DOB, notes } = req.body;
     console.log("req.body", req.body);
     try {
-      const newPatient = await BookingModel.create(
-        name,
-        DOB,
-        notes
-      );
+      const newPatient = await BookingModel.create(name, DOB, notes);
 
       res.statusCode = 201;
       res.setHeader("Content-Type", "application/json");

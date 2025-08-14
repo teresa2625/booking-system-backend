@@ -68,7 +68,9 @@ const BookingController = {
       console.error("Error in getBookingsByDoctor:", error.stack);
       res.statusCode = 500;
       res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ error: "Failed to retrieve bookings by doctor" }));
+      res.end(
+        JSON.stringify({ error: "Failed to retrieve bookings by doctor" }),
+      );
     }
   },
 };
