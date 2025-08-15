@@ -63,9 +63,17 @@ const AuthController = {
         }
       }
 
-      const token = jwt.sign({ userId: user.id, role: user.role }, SECRET_KEY, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          role: user.role,
+          userName: user.user_first_name + " " + user.user_last_name,
+        },
+        SECRET_KEY,
+        {
+          expiresIn: "1h",
+        },
+      );
 
       if (!res.headersSent) {
         res.statusCode = 200;

@@ -5,6 +5,8 @@ const PatientModel = {
     id: "SERIAL PRIMARY KEY",
     patient_name: "VARCHAR(100)",
     patient_DOB: "VARCHAR(100)",
+    patient_email: "VARCHAR(100)",
+    patient_phone: "VARCHAR(100)",
     notes: "VARCHAR(500)",
   },
 
