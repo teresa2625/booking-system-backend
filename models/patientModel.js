@@ -3,6 +3,7 @@ const { getClient } = require("../utils/db");
 const PatientModel = {
   schema: {
     id: "SERIAL PRIMARY KEY",
+    file_num: "VARCHAR(50)",
     patient_name: "VARCHAR(100)",
     patient_DOB: "VARCHAR(100)",
     patient_email: "VARCHAR(100)",
