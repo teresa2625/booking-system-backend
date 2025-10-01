@@ -119,16 +119,16 @@ const BookingModel = {
     }
   },
 
-  update: async function (bookingStatus, doctorNotes, id) {
+  update: async function (bookingStatus, id) {
     const client = getClient();
     try {
       await client.connect();
       await this.checkAndSyncTable();
 
       const query = `
-      UPDATE bookings SET (status, note) = ($1, $2) WHERE (id) = ($3) RETURNING *;
+      UPDATE bookings SET (status) = ($1) WHERE (id) = ($2) RETURNING *;
       `;
-      const values = [bookingStatus, doctorNotes, id];
+      const values = [bookingStatus, id];
       const res = await client.query(query, values);
       return res.rows[0];
     } catch (err) {

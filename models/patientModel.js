@@ -8,6 +8,20 @@ const PatientModel = {
     patient_DOB: "VARCHAR(100)",
     patient_email: "VARCHAR(100)",
     patient_phone: "VARCHAR(100)",
+    patient_address: "VARCHAR(100)",
+    occupation: "VARCHAR(500)",
+    complaint: "VARCHAR(500)",
+    currentRX: "VARCHAR(500)",
+    tests: "VARCHAR(500)",
+    medication: "VARCHAR(500)",
+    others: "VARCHAR(500)",
+    neuro: "VARCHAR(500)",
+    ortho: "VARCHAR(500)",
+    vasc: "VARCHAR(500)",
+    oe: "VARCHAR(500)",
+    rx: "VARCHAR(500)",
+    dx: "VARCHAR(500)",
+    pxrec: "VARCHAR(500)",
     notes: "VARCHAR(500)",
   },
 
@@ -63,17 +77,61 @@ const PatientModel = {
     }
   },
 
-  create: async function (patientName, patientDOB, notes) {
+  create: async function (
+    fileNum,
+    patientName,
+    patientDOB,
+    patientEmail,
+    patientPhone,
+    patientAddress,
+    occupation,
+    complaint,
+    currentRX,
+    tests,
+    medication,
+    others,
+    neuro,
+    ortho,
+    vasc,
+    oe,
+    rx,
+    dx,
+    pxrec,
+    notes,
+  ) {
     const client = getClient();
     try {
       await client.connect();
       await this.checkAndSyncTable();
 
       const query = `
-        INSERT INTO patients (patient_name, patient_DOB, notes)
-        VALUES ($1, $2, $3) RETURNING *;
+        INSERT INTO patients (file_num, full_name, DOB, email, phone, address, occupation, complaint,
+        currentRX, tests, medication, others, neuro, ortho, vasc, oe, rx, dx, pxrec, notes)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, 
+        $18, $19, $20) RETURNING *;
       `;
-      const values = [patientName, patientDOB, notes];
+      const values = [
+        fileNum,
+        patientName,
+        patientDOB,
+        patientEmail,
+        patientPhone,
+        patientAddress,
+        occupation,
+        complaint,
+        currentRX,
+        tests,
+        medication,
+        others,
+        neuro,
+        ortho,
+        vasc,
+        oe,
+        rx,
+        dx,
+        pxrec,
+        notes,
+      ];
       const res = await client.query(query, values);
       return res.rows[0];
     } catch (err) {
@@ -82,16 +140,16 @@ const PatientModel = {
     }
   },
 
-  update: async function (doctorNotes, id) {
+  update: async function (doctorNotes, fileNum, patientName, patientEmail) {
     const client = getClient();
     try {
       await client.connect();
       await this.checkAndSyncTable();
 
       const query = `
-      UPDATE patients SET (notes) = ($1) WHERE (id) = ($2) RETURNING *;
+      UPDATE patients SET (notes) = ($1) WHERE (file_num) = ($2) AND (full_name) = ($3) AND (email) = ($4) RETURNING *;
       `;
-      const values = [doctorNotes, id];
+      const values = [doctorNotes, fileNum, patientName, patientEmail];
       const res = await client.query(query, values);
       return res.rows[0];
     } catch (err) {
@@ -100,11 +158,11 @@ const PatientModel = {
     }
   },
 
-  getAll: async function () {
+  getAllPatientInfo: async function () {
     const client = getClient();
     try {
       await client.connect();
-      const res = await client.query("SELECT * FROM patients");
+      const res = await client.query("SELECT DISTINCT * FROM patients");
       return res.rows;
     } catch (err) {
       console.error("Error fetching patients:", err.stack);
@@ -118,7 +176,7 @@ const PatientModel = {
       await client.connect();
 
       const query = `
-      SELECT * FROM patients WHERE (patient_name) = ($1);
+      SELECT * FROM patients WHERE (full_name) = ($1);
       `;
       const values = [patient];
       const res = await client.query(query, values);

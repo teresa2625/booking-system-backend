@@ -27,10 +27,10 @@ const BookingController = {
   },
 
   updateBooking: async (req, res) => {
-    const { status, note, id } = req.body;
+    const { status, id } = req.body;
     console.log("req.body", req.body);
     try {
-      const doctorUpdateBooking = await BookingModel.update(status, note, id);
+      const doctorUpdateBooking = await BookingModel.update(status, id);
 
       res.statusCode = 201;
       res.setHeader("Content-Type", "application/json");
