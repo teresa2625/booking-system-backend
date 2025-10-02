@@ -4,11 +4,11 @@ const PatientModel = {
   schema: {
     id: "SERIAL PRIMARY KEY",
     file_num: "VARCHAR(50)",
-    patient_name: "VARCHAR(100)",
-    patient_DOB: "VARCHAR(100)",
-    patient_email: "VARCHAR(100)",
-    patient_phone: "VARCHAR(100)",
-    patient_address: "VARCHAR(100)",
+    full_name: "VARCHAR(100)",
+    DOB: "VARCHAR(100)",
+    email: "VARCHAR(100)",
+    phone: "VARCHAR(100)",
+    address: "VARCHAR(100)",
     occupation: "VARCHAR(500)",
     complaint: "VARCHAR(500)",
     currentRX: "VARCHAR(500)",
@@ -80,9 +80,10 @@ const PatientModel = {
   create: async function (
     fileNum,
     patientName,
-    patientDOB,
     patientEmail,
     patientPhone,
+    notes,
+    patientDOB,
     patientAddress,
     occupation,
     complaint,
@@ -97,7 +98,6 @@ const PatientModel = {
     rx,
     dx,
     pxrec,
-    notes,
   ) {
     const client = getClient();
     try {
@@ -105,17 +105,18 @@ const PatientModel = {
       await this.checkAndSyncTable();
 
       const query = `
-        INSERT INTO patients (file_num, full_name, DOB, email, phone, address, occupation, complaint,
-        currentRX, tests, medication, others, neuro, ortho, vasc, oe, rx, dx, pxrec, notes)
+        INSERT INTO patients (file_num, full_name, email, phone, notes, DOB, address, occupation, complaint,
+        currentRX, tests, medication, others, neuro, ortho, vasc, oe, rx, dx, pxrec)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, 
         $18, $19, $20) RETURNING *;
       `;
       const values = [
         fileNum,
         patientName,
-        patientDOB,
         patientEmail,
         patientPhone,
+        notes,
+        patientDOB,
         patientAddress,
         occupation,
         complaint,
@@ -130,7 +131,6 @@ const PatientModel = {
         rx,
         dx,
         pxrec,
-        notes,
       ];
       const res = await client.query(query, values);
       return res.rows[0];

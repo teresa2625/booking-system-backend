@@ -2,10 +2,52 @@ const { PatientModel } = require("../models/patientModel");
 
 const PatientController = {
   addPatient: async (req, res) => {
-    const { name, DOB, notes } = req.body;
+    const {
+      fileNum,
+      patientName,
+      email,
+      phoneNum,
+      notes,
+      dob,
+      address,
+      occupation,
+      complaint,
+      currentRX,
+      tests,
+      medication,
+      others,
+      neuro,
+      ortho,
+      vasc,
+      oe,
+      rx,
+      dx,
+      pxrec,
+    } = req.body;
     console.log("req.body", req.body);
     try {
-      const newPatient = await PatientModel.create(name, DOB, notes);
+      const newPatient = await PatientModel.create(
+        fileNum,
+        patientName,
+        email,
+        phoneNum,
+        notes,
+        dob,
+        address,
+        occupation,
+        complaint,
+        currentRX,
+        tests,
+        medication,
+        others,
+        neuro,
+        ortho,
+        vasc,
+        oe,
+        rx,
+        dx,
+        pxrec,
+      );
 
       res.statusCode = 201;
       res.setHeader("Content-Type", "application/json");
