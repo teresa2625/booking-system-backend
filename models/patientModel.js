@@ -5,7 +5,7 @@ const PatientModel = {
     id: "SERIAL PRIMARY KEY",
     file_num: "VARCHAR(50)",
     full_name: "VARCHAR(100)",
-    DOB: "VARCHAR(100)",
+    dob: "VARCHAR(100)",
     email: "VARCHAR(100)",
     phone: "VARCHAR(100)",
     address: "VARCHAR(100)",
@@ -105,7 +105,7 @@ const PatientModel = {
       await this.checkAndSyncTable();
 
       const query = `
-        INSERT INTO patients (file_num, full_name, email, phone, notes, DOB, address, occupation, complaint,
+        INSERT INTO patients (file_num, full_name, email, phone, notes, dob, address, occupation, complaint,
         currentRX, tests, medication, others, neuro, ortho, vasc, oe, rx, dx, pxrec)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, 
         $18, $19, $20) RETURNING *;
