@@ -147,7 +147,9 @@ const PatientModel = {
       await this.checkAndSyncTable();
 
       const query = `
-      UPDATE patients SET (notes) = ($1) WHERE (file_num) = ($2) AND (full_name) = ($3) AND (email) = ($4) RETURNING *;
+      UPDATE patients SET notes = $1 
+      WHERE file_num = $2 AND full_name = $3 AND email = $4 RETURNING *;
+
       `;
       const values = [doctorNotes, fileNum, patientName, patientEmail];
       const res = await client.query(query, values);

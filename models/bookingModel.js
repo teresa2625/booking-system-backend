@@ -126,7 +126,7 @@ const BookingModel = {
       await this.checkAndSyncTable();
 
       const query = `
-      UPDATE bookings SET (status) = ($1) WHERE (id) = ($2) RETURNING *;
+      UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *;
       `;
       const values = [bookingStatus, id];
       const res = await client.query(query, values);
